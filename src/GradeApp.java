@@ -11,13 +11,12 @@ public class GradeApp {
 		}
 		
 		// Note the data types of these values!
+		// Are they correct for what you want to do??
 		String grade1 = args[0];
 		String grade2 = args[1];
 		String grade3 = args[2];
+
 		
-		System.out.printf("Current Grade: \n",convertFromStringToDouble(grade1),
-				convertFromStringToDouble(grade2),
-				convertFromStringToDouble(grade3));
 	}
 	
 	/**

@@ -1,3 +1,6 @@
+default:
+	@$(MAKE) -C ./src
+
 #
 # Cool code excerpt from
 #
@@ -11,21 +14,22 @@ args = $(foreach a,$($(subst -,_,$1)_args),$(if $(value $a),"$($a)"))
 
 # make takes arguments of x=... y=... z=...
 
-grade_args = x y z
+# this section needs to have corresponding macro name sans _args
+# in the Grades macro section
+GradeApp_args = x y z
 
 GRADES = \
-	grade
+	GradeApp
 
-	
 #
 # the default make target entry
 #
 
-default: classes	
+#default: classes	
 	
 .PHONY: $(GRADES) eval
 $(GRADES):
-	java -cp .:lib/hamcrest-2.2.jar GradeApp $(call args,$@)	
+	@cd src && java -cp .:lib/hamcrest-2.2.jar GradeApp $(call args,$@)	
 
 
 # https://www.cs.swarthmore.edu/~newhall/unixhelp/javamakefiles.html
@@ -92,11 +96,20 @@ classes: $(CLASSES:.java=.class)
 clean:
 	$(RM) *.class
 	
-eval:
-	@cd src && java -cp .:lib/hamcrest-2.2.jar GradeApp 1 2 3
-	@cd src && java -cp .:lib/hamcrest-2.2.jar GradeApp 4 5 6
-	@cd src && java -cp .:lib/hamcrest-2.2.jar GradeApp 10 22.1 36.5
-	@cd src && java -cp .:lib/hamcrest-2.2.jar GradeApp 11 52.2 34.9	
+test: default
+	@echo "for grades 85.5 90 78 => Current Grade: B"
+	@echo your code outputs: 
+	@cd src &&  java -cp .:lib/hamcrest-2.2.jar GradeApp 85.5 90 78 && cd ..
+	@echo	
+	@echo "for grades 84 79 75.9 => Current Grade: C"
+	@echo your code outputs:
+	@cd src && java -cp .:lib/hamcrest-2.2.jar GradeApp 84 79 75.9 && cd ..
+	@echo
+	@echo "for grades 95.2 89.0 91.3 => Current Grade: A"
+	@echo your code outputs:
+	@cd src && java -cp .:lib/hamcrest-2.2.jar GradeApp 95.2 89.0 91.3 && cd ..
+	@echo
+
 	
 	
 

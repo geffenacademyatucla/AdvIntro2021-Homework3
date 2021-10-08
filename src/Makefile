@@ -1,31 +1,9 @@
 #
-# Cool code excerpt from
-#
-# https://pawamoy.github.io/posts/pass-makefile-args-as-typed-in-command-line/
-#
-# original version prints args as <x=".."> ...
-# args = $(foreach a,$($(subst -,_,$1)_args),$(if $(value $a),$a="$($a)"))
-
-# ... I want to pass the naked arguments
-args = $(foreach a,$($(subst -,_,$1)_args),$(if $(value $a),"$($a)"))
-
-# make takes arguments of x=... y=... z=...
-
-grade_args = x y z
-
-GRADES = \
-	grade
-	
-#
 # the default make target entry
 #
 
 default: classes	
 	
-.PHONY: $(GRADES)
-$(GRADES):
-	java -cp .:lib/hamcrest-2.2.jar GradeApp $(call args,$@)	
-
 
 # https://www.cs.swarthmore.edu/~newhall/unixhelp/javamakefiles.html
 # define compiler and compiler flag variables
@@ -71,8 +49,6 @@ CLASSES = \
 	GradeApp.java 
 
 
-
-
 #
 # This target entry uses Suffix Replacement within a macro: 
 # $(name:string1=string2)
@@ -90,4 +66,3 @@ classes: $(CLASSES:.java=.class)
 
 clean:
 	$(RM) *.class
-
